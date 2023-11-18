@@ -26,7 +26,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     }
 
     /// <inheritdoc />
-    public override string Name => "Template";
+    public override string Name => "Wake On Lan";
 
     /// <inheritdoc />
     public override Guid Id => Guid.Parse("7C883692-BA04-40BD-A6AD-BF90D6D063FA");
