@@ -121,7 +121,11 @@ public class SessionManager : ISessionManager
 
     public Task OnPlaybackStopped(PlaybackStopInfo info)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("OnPlaybackStopped appelée");
+
+        // Implémenter la logique réelle ici
+
+        return Task.CompletedTask;
     }
 
     public void ReportSessionEnded(string sessionId)
