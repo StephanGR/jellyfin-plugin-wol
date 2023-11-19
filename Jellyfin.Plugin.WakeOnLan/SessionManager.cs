@@ -21,6 +21,7 @@ public class SessionManager : ISessionManager
     public SessionManager(ILogger<Plugin> logger)
     {
         _logger = logger;
+        _logger.LogInformation("SessionManager initialized");
     }
 
     public IEnumerable<SessionInfo> Sessions { get; } = new List<SessionInfo>();
