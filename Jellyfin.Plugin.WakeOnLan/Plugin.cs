@@ -6,6 +6,7 @@ using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.WakeOnLan;
 
@@ -21,11 +22,13 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// </summary>
     /// <param name="applicationPaths">Instance of the <see cref="IApplicationPaths"/> interface.</param>
     /// <param name="xmlSerializer">Instance of the <see cref="IXmlSerializer"/> interface.</param>
-    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer)
+    /// <param name="logger">Instance of the <see cref="ILogger{TCategoryName}"/> for logging.</param>
+    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer, ILogger<Plugin> logger)
         : base(applicationPaths, xmlSerializer)
     {
         Instance = this;
         _logger = logger;
+        _logger.LogInformation("Wake On Lan Plugin started. Server MAC Address: {ServerMacAddress}", Configuration.ServerMacAddress);
     }
 
     /// <inheritdoc />
@@ -50,12 +53,5 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
                 EmbeddedResourcePath = string.Format(CultureInfo.InvariantCulture, "{0}.Configuration.configPage.html", GetType().Namespace)
             }
         };
-    }
-
-    public override void OnStartup()
-    {
-        _logger.LogInformation("Wake On Lan Plugin started.");
-        _logger.LogInformation($"Server MAC Address: {Configuration.ServerMacAddress}");
-        // We should subscribe on events
     }
 }
