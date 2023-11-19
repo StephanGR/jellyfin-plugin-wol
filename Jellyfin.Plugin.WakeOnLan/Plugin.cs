@@ -4,9 +4,11 @@ using System.Globalization;
 using Jellyfin.Plugin.WakeOnLan.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
-using MediaBrowser.Controller.Session;
+using MediaBrowser.Controller.Events;
+using MediaBrowser.Controller.Events.Session;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.WakeOnLan;
@@ -17,7 +19,7 @@ namespace Jellyfin.Plugin.WakeOnLan;
 public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
 {
     private readonly ILogger<Plugin> _logger;
-    private readonly SessionManager _sessionManager;
+    private readonly SessionStartNotifier _sessionStartNotifier;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Plugin"/> class.
@@ -25,12 +27,13 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// <param name="applicationPaths">Instance of the <see cref="IApplicationPaths"/> interface.</param>
     /// <param name="xmlSerializer">Instance of the <see cref="IXmlSerializer"/> interface.</param>
     /// <param name="logger">Instance of the <see cref="ILogger{TCategoryName}"/> for logging.</param>
-    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer, ILogger<Plugin> logger)
+    /// <param name="sessionStartNotifier">Instance of sessionStartNotifier.</param>
+    public Plugin(IApplicationPaths applicationPaths, IXmlSerializer xmlSerializer, ILogger<Plugin> logger, SessionStartNotifier sessionStartNotifier)
         : base(applicationPaths, xmlSerializer)
     {
         Instance = this;
         _logger = logger;
-        _sessionManager = new SessionManager(_logger);
+        _sessionStartNotifier = sessionStartNotifier;
         _logger.LogInformation("Wake On Lan Plugin started. Server MAC Address: {ServerMacAddress}", Configuration.ServerMacAddress);
     }
 
