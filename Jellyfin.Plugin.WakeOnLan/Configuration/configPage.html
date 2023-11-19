@@ -10,15 +10,9 @@
             <div class="content-primary">
                 <form id="TemplateConfigForm">
                     <div class="inputContainer">
-                        <label class="inputLabel inputLabelUnfocused" for="AString">MAC Address:</label>
-                        <input id="AString" name="AString" type="text" is="emby-input" />
+                        <label class="inputLabel inputLabelUnfocused" for="ServerMacAddress">MAC Address:</label>
+                        <input id="ServerMacAddress" name="ServerMacAddress" type="text" is="emby-input" />
                         <div class="fieldDescription">This address will be used to wake up the server</div>
-                    </div>
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label class="emby-checkbox-label">
-                            <input id="TrueFalseSetting" name="TrueFalseCheckBox" type="checkbox" is="emby-checkbox" />
-                            <span>Enable ?</span>
-                        </label>
                     </div>
                     <div>
                         <button is="emby-button" type="submit" class="raised button-submit block emby-button">
@@ -37,10 +31,7 @@
                 .addEventListener('pageshow', function() {
                     Dashboard.showLoadingMsg();
                     ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
-                        document.querySelector('#Options').value = config.Options;
-                        document.querySelector('#AnInteger').value = config.AnInteger;
-                        document.querySelector('#TrueFalseSetting').checked = config.TrueFalseSetting;
-                        document.querySelector('#AString').value = config.AString;
+                        document.querySelector('#ServerMacAddress').value = config.ServerMacAddress;
                         Dashboard.hideLoadingMsg();
                     });
                 });
@@ -49,10 +40,7 @@
                 .addEventListener('submit', function(e) {
                 Dashboard.showLoadingMsg();
                 ApiClient.getPluginConfiguration(TemplateConfig.pluginUniqueId).then(function (config) {
-                    config.Options = document.querySelector('#Options').value;
-                    config.AnInteger = document.querySelector('#AnInteger').value;
-                    config.TrueFalseSetting = document.querySelector('#TrueFalseSetting').checked;
-                    config.AString = document.querySelector('#AString').value;
+                    config.ServerMacAddress = document.querySelector('#ServerMacAddress').value;
                     ApiClient.updatePluginConfiguration(TemplateConfig.pluginUniqueId, config).then(function (result) {
                         Dashboard.processPluginConfigurationUpdateResult(result);
                     });
