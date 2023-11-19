@@ -4,6 +4,7 @@ using System.Globalization;
 using Jellyfin.Plugin.WakeOnLan.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
+using MediaBrowser.Controller.Session;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 using Microsoft.Extensions.Logging;
@@ -16,6 +17,7 @@ namespace Jellyfin.Plugin.WakeOnLan;
 public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
 {
     private readonly ILogger<Plugin> _logger;
+    private readonly SessionManager _sessionManager;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Plugin"/> class.
@@ -28,6 +30,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
         Instance = this;
         _logger = logger;
+        _sessionManager = new SessionManager(_logger);
         _logger.LogInformation("Wake On Lan Plugin started. Server MAC Address: {ServerMacAddress}", Configuration.ServerMacAddress);
     }
 
