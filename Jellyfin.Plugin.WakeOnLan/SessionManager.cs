@@ -85,7 +85,6 @@ public class SessionManager : ISessionManager
         remove { }
     }
 
-    // Implémentation d'une méthode de l'interface comme exemple
     public Task<SessionInfo> LogSessionActivity(string appName, string appVersion, string deviceId, string deviceName, string remoteEndPoint, User user)
     {
         throw new NotImplementedException();
@@ -103,7 +102,11 @@ public class SessionManager : ISessionManager
 
     public Task OnPlaybackStart(PlaybackStartInfo info)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation("OnPlaybackStart appelée");
+
+        // Implémenter la logique réelle ici
+
+        return Task.CompletedTask;
     }
 
     public Task OnPlaybackProgress(PlaybackProgressInfo info)
